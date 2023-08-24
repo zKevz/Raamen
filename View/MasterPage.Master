@@ -1,0 +1,34 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs" Inherits="Raamen.View.MasterPage" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Raamen</title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="nav">
+            <div runat="server" id="NonGuestNav">
+                <asp:Button ID="HomeButton" runat="server" Text="Home" OnClick="OnHomeButtonClicked"/>
+                <asp:Button ID="ManageRamenButton" runat="server" Text="Manage Ramen" OnClick="OnManageRamenButtonClicked"/>
+                <asp:Button ID="OrderQueueButton" runat="server" Text="Order Queue" OnClick="OnOrderQueueButtonClicked"/>
+                <asp:Button ID="OrderRamenButton" runat="server" Text="Order Ramen" OnClick="OnOrderRamenButtonClicked"/>
+                <asp:Button ID="HistoryButton" runat="server" Text="History" OnClick="OnHistoryButtonClicked"/>
+                <asp:Button ID="ProfileButton" runat="server" Text="Profile" OnClick="OnProfileButtonClicked"/>
+                <asp:Button ID="ReportButton" runat="server" Text="Report" OnClick="OnReportButtonClicked"/>
+                <asp:Button ID="LogoutButton" runat="server" Text="Logout" OnClick="OnLogoutButtonClicked"/>
+            </div>
+            <asp:Button ID="LoginButton" runat="server" Text="Login" OnClick="OnLoginButtonClicked"/>
+            <asp:Button ID="RegisterButton" runat="server" Text="Register" OnClick="OnRegisterButtonClicked"/>
+        </div>
+
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

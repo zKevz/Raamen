@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LocalDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Meats">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ramens">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MeatID" Type="int" Nullable="false" />
+          <Property Name="Broth" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionDetails">
+          <Key>
+            <PropertyRef Name="HeaderID" />
+            <PropertyRef Name="RamenID" />
+          </Key>
+          <Property Name="HeaderID" Type="int" Nullable="false" />
+          <Property Name="RamenID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransactionHeaders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="StaffID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Ramens__MeatID__3D5E1FD2">
+          <End Role="Meats" Type="Self.Meats" Multiplicity="1" />
+          <End Role="Ramens" Type="Self.Ramens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meats">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ramens">
+              <PropertyRef Name="MeatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Custo__403A8C7D">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TransactionHeaders" Type="Self.TransactionHeaders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionHeaders">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Heade__440B1D61">
+          <End Role="TransactionHeaders" Type="Self.TransactionHeaders" Multiplicity="1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionHeaders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="HeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Ramen__44FF419A">
+          <End Role="Ramens" Type="Self.Ramens" Multiplicity="1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ramens">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="RamenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Staff__412EB0B6">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TransactionHeaders" Type="Self.TransactionHeaders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionHeaders">
+              <PropertyRef Name="StaffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__RoleID__38996AB5">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LocalDatabaseModelStoreContainer">
+          <EntitySet Name="Meats" EntityType="Self.Meats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ramens" EntityType="Self.Ramens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionHeaders" EntityType="Self.TransactionHeaders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Ramens__MeatID__3D5E1FD2" Association="Self.FK__Ramens__MeatID__3D5E1FD2">
+            <End Role="Meats" EntitySet="Meats" />
+            <End Role="Ramens" EntitySet="Ramens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Custo__403A8C7D" Association="Self.FK__Transacti__Custo__403A8C7D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TransactionHeaders" EntitySet="TransactionHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Heade__440B1D61" Association="Self.FK__Transacti__Heade__440B1D61">
+            <End Role="TransactionHeaders" EntitySet="TransactionHeaders" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Ramen__44FF419A" Association="Self.FK__Transacti__Ramen__44FF419A">
+            <End Role="Ramens" EntitySet="Ramens" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Staff__412EB0B6" Association="Self.FK__Transacti__Staff__412EB0B6">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TransactionHeaders" EntitySet="TransactionHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__RoleID__38996AB5" Association="Self.FK__Users__RoleID__38996AB5">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LocalDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Meat">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Ramens" Relationship="Self.FK__Ramens__MeatID__3D5E1FD2" FromRole="Meats" ToRole="Ramens" />
+        </EntityType>
+        <EntityType Name="Ramen">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MeatID" Type="Int32" Nullable="false" />
+          <Property Name="Broth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Meat" Relationship="Self.FK__Ramens__MeatID__3D5E1FD2" FromRole="Ramens" ToRole="Meats" />
+          <NavigationProperty Name="TransactionDetails" Relationship="Self.FK__Transacti__Ramen__44FF419A" FromRole="Ramens" ToRole="TransactionDetails" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Users__RoleID__38996AB5" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TransactionDetail">
+          <Key>
+            <PropertyRef Name="HeaderID" />
+            <PropertyRef Name="RamenID" />
+          </Key>
+          <Property Name="HeaderID" Type="Int32" Nullable="false" />
+          <Property Name="RamenID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ramen" Relationship="Self.FK__Transacti__Ramen__44FF419A" FromRole="TransactionDetails" ToRole="Ramens" />
+          <NavigationProperty Name="TransactionHeader" Relationship="Self.FK__Transacti__Heade__440B1D61" FromRole="TransactionDetails" ToRole="TransactionHeaders" />
+        </EntityType>
+        <EntityType Name="TransactionHeader">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="StaffID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TransactionDetails" Relationship="Self.FK__Transacti__Heade__440B1D61" FromRole="TransactionHeaders" ToRole="TransactionDetails" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Transacti__Custo__403A8C7D" FromRole="TransactionHeaders" ToRole="Users" />
+          <NavigationProperty Name="User1" Relationship="Self.FK__Transacti__Staff__412EB0B6" FromRole="TransactionHeaders" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__Users__RoleID__38996AB5" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="TransactionHeaders" Relationship="Self.FK__Transacti__Custo__403A8C7D" FromRole="Users" ToRole="TransactionHeaders" />
+          <NavigationProperty Name="TransactionHeaders1" Relationship="Self.FK__Transacti__Staff__412EB0B6" FromRole="Users" ToRole="TransactionHeaders" />
+        </EntityType>
+        <Association Name="FK__Ramens__MeatID__3D5E1FD2">
+          <End Role="Meats" Type="Self.Meat" Multiplicity="1" />
+          <End Role="Ramens" Type="Self.Ramen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Meats">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Ramens">
+              <PropertyRef Name="MeatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Ramen__44FF419A">
+          <End Role="Ramens" Type="Self.Ramen" Multiplicity="1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ramens">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="RamenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__RoleID__38996AB5">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Heade__440B1D61">
+          <End Role="TransactionHeaders" Type="Self.TransactionHeader" Multiplicity="1" />
+          <End Role="TransactionDetails" Type="Self.TransactionDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionHeaders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionDetails">
+              <PropertyRef Name="HeaderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Custo__403A8C7D">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="TransactionHeaders" Type="Self.TransactionHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionHeaders">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Staff__412EB0B6">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="TransactionHeaders" Type="Self.TransactionHeader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TransactionHeaders">
+              <PropertyRef Name="StaffID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LocalDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Meats" EntityType="Self.Meat" />
+          <EntitySet Name="Ramens" EntityType="Self.Ramen" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="TransactionDetails" EntityType="Self.TransactionDetail" />
+          <EntitySet Name="TransactionHeaders" EntityType="Self.TransactionHeader" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__Ramens__MeatID__3D5E1FD2" Association="Self.FK__Ramens__MeatID__3D5E1FD2">
+            <End Role="Meats" EntitySet="Meats" />
+            <End Role="Ramens" EntitySet="Ramens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Ramen__44FF419A" Association="Self.FK__Transacti__Ramen__44FF419A">
+            <End Role="Ramens" EntitySet="Ramens" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__RoleID__38996AB5" Association="Self.FK__Users__RoleID__38996AB5">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Heade__440B1D61" Association="Self.FK__Transacti__Heade__440B1D61">
+            <End Role="TransactionHeaders" EntitySet="TransactionHeaders" />
+            <End Role="TransactionDetails" EntitySet="TransactionDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Custo__403A8C7D" Association="Self.FK__Transacti__Custo__403A8C7D">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TransactionHeaders" EntitySet="TransactionHeaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Staff__412EB0B6" Association="Self.FK__Transacti__Staff__412EB0B6">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TransactionHeaders" EntitySet="TransactionHeaders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LocalDatabaseModelStoreContainer" CdmEntityContainer="LocalDatabaseEntities">
+          <EntitySetMapping Name="Meats">
+            <EntityTypeMapping TypeName="LocalDatabaseModel.Meat">
+              <MappingFragment StoreEntitySet="Meats">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ramens">
+            <EntityTypeMapping TypeName="LocalDatabaseModel.Ramen">
+              <MappingFragment StoreEntitySet="Ramens">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MeatID" ColumnName="MeatID" />
+                <ScalarProperty Name="Broth" ColumnName="Broth" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="LocalDatabaseModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionDetails">
+            <EntityTypeMapping TypeName="LocalDatabaseModel.TransactionDetail">
+              <MappingFragment StoreEntitySet="TransactionDetails">
+                <ScalarProperty Name="HeaderID" ColumnName="HeaderID" />
+                <ScalarProperty Name="RamenID" ColumnName="RamenID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionHeaders">
+            <EntityTypeMapping TypeName="LocalDatabaseModel.TransactionHeader">
+              <MappingFragment StoreEntitySet="TransactionHeaders">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="LocalDatabaseModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
